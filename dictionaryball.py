@@ -1,3 +1,6 @@
+import os
+os.system('pip install unittest2')`
+
 def game_dict():
     game_dictionary = {'home':
                             {'team_name': 'Brooklyn Nets',
@@ -29,6 +32,9 @@ def game_dict():
 
 """HELPER FUNCTIONS"""
 
+team_1 = game_dict()['home']['team_name'] #Brooklyn Nets
+team_2 = game_dict()['away']['team_name'] #Charlotte Hornets
+
 def player_list():
     team_list = []
     for location_data, team in game_dict().items():
@@ -42,13 +48,25 @@ def player_stats(player_name):
             if players[0] == player_name:
                 return players[1]
 
+def which_team(team_var):
+    player_list = []
+    for location_data, team in game_dict().items():
+        for players in team['players'].items():
+            if team['team_name'] == team_var:
+                player_list.append(players[0])
+    return player_list
+
+team_1_players = which_team(team_1)
+team_2_players = which_team(team_2)
+
 ###
 
 def team_colors(team_name):
     for location_data, team in game_dict().items():
         if team['team_name'] == team_name: return team['colors']
-        
-print(team_colors("Brooklyn Nets"),"\n")
+    return team_colors
+
+team_colors(team_1)
 
 def team_names():
     team_list = []
@@ -56,28 +74,31 @@ def team_names():
         team_list.append(team['team_name'])
     return team_list
     
-print(team_names(),"\n")
+team_names()
 
 ###
 
 def player_numbers(player_name):
-    return f"{player_name} wears #{player_stats(player_name)['number']}.\n"
+    return player_stats(player_name)['number']
+    # return f"{player_name} wears #{player_stats(player_name)['number']}.\n"
 
-print(player_numbers('Jason Terry'))
+player_numbers('Jason Terry')
 
 ###
 
 def shoe_size(player_name):
-    return f"{player_name} wears a size {player_stats(player_name)['shoe']}.\n"
+    return player_stats(player_name)['shoe']
+    # return f"{player_name} wears a size {player_stats(player_name)['shoe']}.\n"
 
-print(shoe_size('Brendan Haywood'))
+shoe_size('Brendan Haywood')
 
 ###
 
 def num_points_scored(player_name):
-    return f"{player_name} scored {player_stats(player_name)['points']} points.\n"
+    return player_stats(player_name)['points']
+    # return f"{player_name} scored {player_stats(player_name)['points']} points.\n"
 
-print(num_points_scored('Reggie Evans'))
+num_points_scored('Reggie Evans')
 
 ###
 
@@ -86,9 +107,10 @@ def big_shoe_rebounds(max_metric, stat):
     for player_name in player_list():
         max_shoe_list[player_name] = player_stats(player_name)[max_metric]
     max_shoe = max(zip(max_shoe_list.values(), max_shoe_list.keys()))
-    return f"{max_shoe[1]} has a size {max_shoe[0]} shoe and had {player_stats(max_shoe[1])[stat]} rebounds.\n"
+    return player_stats(max_shoe[1])[stat]
+    # return f"{max_shoe[1]} has a size {max_shoe[0]} shoe and had {player_stats(max_shoe[1])[stat]} rebounds.\n"
     
-print(big_shoe_rebounds('shoe', 'rebounds'))
+big_shoe_rebounds('shoe', 'rebounds')
 
 ###
 
@@ -97,6 +119,32 @@ def most_points_scored(max_stat):
     for player_name in player_list():
         max_stat_list[player_name] = player_stats(player_name)[max_stat]
     max_points = max(zip(max_stat_list.values(), max_stat_list.keys()))
-    return f"{max_points[1]} scored the most points, with {max_points[0]}.\n"
+    return max_points[0]
+    # return f"{max_points[1]} scored the most points, with {max_points[0]}.\n"
 
-print(most_points_scored('points'))
+most_points_scored('points')
+
+###
+
+def winning_team(team1, team2):
+    team_1_score = sum([player_stats(player_name)['points'] for player_name in player_list() if player_name in which_team(team_1)])
+    team_2_score = sum([player_stats(player_name)['points'] for player_name in player_list() if player_name in which_team(team_2)])
+    if team_1_score > team_2_score:
+        return team_1
+    else:
+        return team_2
+
+winning_team(team_1, team_2)
+
+###
+
+def player_with_longest_name(players):
+    longest_name, longest_name_count = (None, 0)
+    for player in players:
+        if len(player) > longest_name_count:
+            longest_name, longest_name_count = player, len(player)
+    return longest_name
+
+player_with_longest_name(player_list())
+
+###
