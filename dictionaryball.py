@@ -1,6 +1,3 @@
-import os
-os.system('pip install unittest2')`
-
 def game_dict():
     game_dictionary = {'home':
                             {'team_name': 'Brooklyn Nets',
