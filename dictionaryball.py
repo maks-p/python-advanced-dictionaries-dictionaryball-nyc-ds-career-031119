@@ -39,11 +39,15 @@ def player_list():
             team_list.append(players[0])
     return team_list
 
+print(player_list())
+
 def player_stats(player_name):
     for location_data, team in game_dict().items():
         for players in team['players'].items():
             if players[0] == player_name:
                 return players[1]
+
+print(player_stats('Brook Lopez'))
 
 def which_team(team_var):
     player_list = []
