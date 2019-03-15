@@ -79,11 +79,11 @@ team_names()
 
 ###
 
-def player_numbers(player_name):
-    return player_stats(player_name)['number']
+def player_numbers(team_name):
+    return [player_stats(player)['number'] for player in which_team(team_name)]
     # return f"{player_name} wears #{player_stats(player_name)['number']}.\n"
 
-player_numbers('Jason Terry')
+print(player_numbers('Brooklyn Nets'))
 
 ###
 
