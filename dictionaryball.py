@@ -32,50 +32,51 @@ def game_dict():
 team_1 = game_dict()['home']['team_name'] #Brooklyn Nets
 team_2 = game_dict()['away']['team_name'] #Charlotte Hornets
 
+### All Players List ###
 def player_list():
     team_list = []
-    for location_data, team in game_dict().items():
-        for players in team['players'].items():
-            team_list.append(players[0])
+    for team in game_dict():
+        for player in game_dict()[team]['players']:
+            team_list.append(player)
     return team_list
 
 print(player_list())
 
-def player_stats(player_name):
-    for location_data, team in game_dict().items():
-        for players in team['players'].items():
-            if players[0] == player_name:
-                return players[1]
-
-print(player_stats('Brook Lopez'))
-
 def which_team(team_var):
     player_list = []
-    for location_data, team in game_dict().items():
-        for players in team['players'].items():
-            if team['team_name'] == team_var:
-                player_list.append(players[0])
+    for team in game_dict():
+        for player in game_dict()[team]['players']:
+            if game_dict()[team]['team_name'] == team_var:
+                player_list.append(player)
     return player_list
 
 team_1_players = which_team(team_1)
 team_2_players = which_team(team_2)
 
+def player_stats(player_name):
+    for team in game_dict():
+        for player in game_dict()[team]['players']:
+            if player == player_name:
+                return game_dict()[team]['players'][player_name]
+
+print(player_stats('Brook Lopez'))
+
 ###
 
 def team_colors(team_name):
-    for location_data, team in game_dict().items():
-        if team['team_name'] == team_name: return team['colors']
+    for team in game_dict():
+        if game_dict()[team]['team_name'] == team_name: return game_dict()[team]['colors']
     return team_colors
 
-team_colors(team_1)
+print(team_colors(team_1))
 
 def team_names():
     team_list = []
-    for location_data, team in game_dict().items():
-        team_list.append(team['team_name'])
+    for team in game_dict():
+        team_list.append(game_dict()[team]['team_name'])
     return team_list
     
-team_names()
+print(team_names())
 
 ###
 
@@ -91,7 +92,7 @@ def shoe_size(player_name):
     return player_stats(player_name)['shoe']
     # return f"{player_name} wears a size {player_stats(player_name)['shoe']}.\n"
 
-shoe_size('Brendan Haywood')
+print(shoe_size('Brendan Haywood'))
 
 ###
 
@@ -99,7 +100,7 @@ def num_points_scored(player_name):
     return player_stats(player_name)['points']
     # return f"{player_name} scored {player_stats(player_name)['points']} points.\n"
 
-num_points_scored('Reggie Evans')
+print(num_points_scored('Reggie Evans'))
 
 ###
 
@@ -108,10 +109,11 @@ def big_shoe_rebounds(max_metric, stat):
     for player_name in player_list():
         max_shoe_list[player_name] = player_stats(player_name)[max_metric]
     max_shoe = max(zip(max_shoe_list.values(), max_shoe_list.keys()))
+    print(max_shoe)
     return player_stats(max_shoe[1])[stat]
     # return f"{max_shoe[1]} has a size {max_shoe[0]} shoe and had {player_stats(max_shoe[1])[stat]} rebounds.\n"
     
-big_shoe_rebounds('shoe', 'rebounds')
+print(big_shoe_rebounds('shoe', 'rebounds'))
 
 ###
 
@@ -123,7 +125,7 @@ def most_points_scored(max_stat):
     return max_points[0]
     # return f"{max_points[1]} scored the most points, with {max_points[0]}.\n"
 
-most_points_scored('points')
+print(most_points_scored('points'))
 
 ###
 
@@ -135,7 +137,7 @@ def winning_team(team1, team2):
     else:
         return team_2
 
-winning_team(team_1, team_2)
+print(winning_team(team_1, team_2))
 
 ###
 
@@ -146,6 +148,6 @@ def player_with_longest_name(players):
             longest_name, longest_name_count = player, len(player)
     return longest_name
 
-player_with_longest_name(player_list())
+print(player_with_longest_name(player_list()))
 
 ###
